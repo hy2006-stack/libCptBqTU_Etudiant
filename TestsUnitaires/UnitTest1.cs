@@ -248,5 +248,76 @@ namespace TestsUnitaires
             Assert.IsTrue(resultat, "Le compte1 avec un solde de 0 devrait être supérieur au compte2 avec un solde négatif");
         }
 
+
+        [TestMethod]
+        public void Debiter_MontantPositif()
+        {
+            // Arrange
+            Compte compte = new Compte(1, "Test", 1000m, -500m);
+
+            // Agir
+            bool resultat = compte.Debiter(300m);
+
+            // Assert
+            Assert.IsTrue(resultat);
+            Assert.AreEqual(700m, compte.Solde);
+        }
+
+        [TestMethod]
+        public void Debiter_MontantNegatif()
+        {
+            // Arrange
+            Compte compte = new Compte(2, "Test", 1000m, -500m);
+
+            // Agir
+            bool resultat = compte.Debiter(-200m);
+
+            // Assert
+            Assert.IsFalse(resultat);
+            Assert.AreEqual(1000m, compte.Solde);
+        }
+
+        [TestMethod]
+        public void Debiter_MontantSuperieurAuSoldeAutorise()
+        {
+            // Arrange
+            Compte compte = new Compte(3, "Test", 1000m, -500m);
+
+            // Agir
+            bool resultat = compte.Debiter(1600m);
+
+            // Assert
+            Assert.IsFalse(resultat);
+            Assert.AreEqual(1000m, compte.Solde);
+        }
+
+        [TestMethod]
+        public void Debiter_MontantEgalAuSoldeAutorise()
+        {
+            // Arrange
+            Compte compte = new Compte(4, "Test", 1000m, -500m);
+
+            // Agir
+            bool resultat = compte.Debiter(1500m);
+
+            // Assert
+            Assert.IsTrue(resultat);
+            Assert.AreEqual(-500m, compte.Solde);
+        }
+
+
+        [TestMethod]
+        public void Constructeur_CreeUneBanqueVide()
+
+        {
+            //Arrange
+            Banque b = new Banque();
+
+            //Act
+            int nombre = b.NombreComptes;
+
+            //Assert
+            Assert.AreEqual(0, nombre);
+        }
     }
 }
